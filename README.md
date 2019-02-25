@@ -1,7 +1,9 @@
 # Mini-Sql-Engine
 A mini sql engine like Mysql in python (3)
 
-##Some Basic Queries to run :
+All Errors Handled!
+
+## Some Basic Queries to run :
 1. select max(A) from table1;
 2. select min(B) from table2;
 3. select avg(C) from table1;
