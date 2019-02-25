@@ -31,7 +31,7 @@ operator = []
 aggregate = []
 distinct = False
 agg = False
-a_func = ['sum','average','max','min']
+a_func = ['sum','avg','max','min']
 column_names = []
 output = []
 
@@ -468,12 +468,14 @@ def Project_Table():
                     print(','+i,sep='', end='')
             print(' ')
             return []
-        for i in range(len(output)):
-            for x in red:
-                # print(output)
-                output[i].remove(output[i][meta.index(x)])
-        # print(type(output))
-        
+        try:
+	        for i in range(len(output)):
+	            for x in red:
+	                # print(output)
+	                output[i].remove(output[i][meta.index(x)])
+	        # print(type(output))
+        except:
+        	pass
         if distinct == True:
             output_set = set() 
             for i in range(len(output[0])):
@@ -631,22 +633,28 @@ def Execute():
         if (re.search('where .*$',identifiers[3],re.IGNORECASE)):
     #         Where
             identifiers[3] = identifiers[3][len('where') + 1 : -1]
-            if(re.search(' and ',identifiers[3],re.IGNORECASE)):
-                where_cond = re.split('and',identifiers[3])
+            if(re.search(' AND ',identifiers[3],re.IGNORECASE)):
+                where_cond = re.split('AND',identifiers[3],re.IGNORECASE)
                 where = [i.strip() for i in where_cond]
                 if len(where) !=2:
+                    where_cond = re.split('and',identifiers[3],re.IGNORECASE)
+                    where = [i.strip() for i in where_cond]
+                    if len(where) !=2:
                     # print(where)
-                    Error_Parsing('Hmm, Seems your where clause has errors!')
+                        Error_Parsing('Hmm, Seems your where clause has errors!')
                 where[0]=''.join(where[0])
                 where[1]=''.join(where[1])
                 condition = 1
-            elif re.search(' or ',identifiers[3],re.IGNORECASE):
-                where_cond = re.split('or',identifiers[3])
+            elif re.search(' OR ',identifiers[3],re.IGNORECASE):
+                where_cond = re.split('OR',identifiers[3],re.IGNORECASE)
                 where = [i.strip() for i in where_cond]
                 
                 if len(where) !=2:
+                    where_cond = re.split('or',identifiers[3],re.IGNORECASE)
+                    where = [i.strip() for i in where_cond]
+                    if len(where) !=2:
                     # print(where)
-                    Error_Parsing('Hmm, Seems your where clause has errors!')
+                        Error_Parsing('Hmm, Seems your where clause has errors!')
                 where[0]=''.join(where[0])
                 where[1]=''.join(where[1])
                 condition = 2
@@ -688,7 +696,7 @@ def Execute():
 	                if aggregate[i] == 'min':
 	                    x = min(tables[column_names[i]])
 	                    output.append(x)
-	                if aggregate[i] == 'average':
+	                if aggregate[i] == 'avg':
 	                    x = sum(tables[column_names[i]])
 	                    x = x/len(tables[column_names[i]])
 	                    output.append(x)
